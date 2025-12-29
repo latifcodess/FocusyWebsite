@@ -205,6 +205,53 @@
             color: #666;
         }
 
+
+        .mac-instructions {
+            display: none;
+            background: #fffbea;
+            border: 1px solid #f0e68c;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .mac-instructions h3 {
+            color: #000;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .mac-instructions p {
+            color: #555;
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .mac-instructions code {
+            display: block;
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.95rem;
+            margin-top: 10px;
+            overflow-x: auto;
+            cursor: pointer;
+        }
+
+        .mac-instructions code:hover {
+            background: #1a1a1a;
+        }
+
+        .copy-notice {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.5rem;
@@ -227,6 +274,7 @@
                 width: 100%;
                 max-width: 320px;
                 justify-content: center;
+                margin-bottom: 10px;
             }
 
             .features {
@@ -241,9 +289,52 @@
             .screenshot-placeholder img {
                 object-fit: contain;
             }
+
+            #mac-download,
+            #windows-download,
+            .mac-instructions {
+                display: none;
+            }
         }
     </style>
 </head>
+
+
+<script>
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    const isMac = userAgent.includes("mac");
+    const isWindows = userAgent.includes("win");
+
+    window.addEventListener('DOMContentLoaded', function() {
+        if (isMac) {
+            document.getElementById("mac-download").style.display = "inline-flex";
+            document.getElementById("mac-instructions").style.display = "block";
+        }
+
+        if (isWindows) {
+            document.getElementById("windows-download").style.display = "inline-flex";
+        }
+
+        if (!isMac && !isWindows) {
+            document.querySelector(".download-section").innerHTML +=
+                "<p style='margin-top:20px;color:#666'>Focusy est disponible uniquement sur macOS et Windows.</p>";
+        }
+    });
+
+    function copyCommand() {
+        const command = "xattr -rd com.apple.quarantine /Applications/Focusy.app";
+        navigator.clipboard.writeText(command).then(() => {
+            const notice = document.querySelector('.copy-notice');
+            notice.textContent = "✓ Commande copiée !";
+            setTimeout(() => {
+                notice.textContent = "Cliquez sur la commande pour la copier";
+            }, 2000);
+        });
+    }
+</script>
+
+
 <body>
     <div class="container">
         <header>
@@ -262,15 +353,28 @@
             <div class="download-section">
                 <h2 class="download-title">Téléchargement gratuit</h2>
                 <div class="download-buttons">
-                    <a href="https://github.com/latifcodess/Focusy/releases/latest/download/Focusy_1.0.0_aarch64.dmg" class="download-btn windows">
+                    <a id="mac-download" href="https://github.com/latifcodess/Focusy/releases/latest/download/Focusy_1.0.0_aarch64.dmg" class="download-btn windows">
                         <span>⌘</span>
                         <span>Mac</span>
                     </a>
-                    <a href="https://github.com/latifcodess/Focusy/releases/latest/download/Focusy_1.0.0_x64_en-US.msi" class="download-btn windows">
+                    <a id="windows-download" href="https://github.com/latifcodess/Focusy/releases/latest/download/Focusy_1.0.0_x64_en-US.msi" class="download-btn windows">
                         <span>⊞</span>
                         <span>Windows</span>
                     </a>
                 </div>
+
+
+                <div id="mac-instructions" class="mac-instructions">
+                    <h3>⚠️ Instructions pour les utilisateurs Mac</h3>
+                    <p>Si un message indique que l'application est endommagée après l'installation, suivez ces étapes :</p>
+                    <p><strong>1.</strong> Ouvrez le Terminal (Applications > Utilitaires > Terminal)</p>
+                    <p><strong>2.</strong> Copiez et exécutez cette commande :</p>
+                    <code onclick="copyCommand()">xattr -rd com.apple.quarantine /Applications/Focusy.app</code>
+                    <p class="copy-notice">Cliquez sur la commande pour la copier</p>
+                    <p><strong>3.</strong> Appuyez sur Entrée et relancez l'application</p>
+                </div>
+
+
             </div>
 
             <div class="screenshot-section">
