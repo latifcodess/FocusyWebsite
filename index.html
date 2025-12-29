@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro App - Minuteur minimaliste</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 80px 20px 60px;
+        }
+
+        .app-icon {
+            font-size: 120px;
+            margin-bottom: 30px;
+            filter: grayscale(100%);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            color: #666;
+            margin-bottom: 50px;
+            font-weight: 300;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .description {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #444;
+            margin-bottom: 50px;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .download-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .download-title {
+            font-size: 1.8rem;
+            margin-bottom: 35px;
+            color: #000;
+            font-weight: 600;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 2px solid #000;
+        }
+
+        .download-btn.mac {
+            background: #000;
+            color: white;
+        }
+
+        .download-btn.mac:hover {
+            background: #333;
+            border-color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-btn.windows {
+            background: white;
+            color: #000;
+        }
+
+        .download-btn.windows:hover {
+            background: #000;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+            padding: 0 20px;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 30px 20px;
+            background: #fafafa;
+            border-radius: 12px;
+            border: 1px solid #e8e8e8;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            filter: grayscale(100%);
+        }
+
+        .feature h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: #000;
+            font-weight: 600;
+        }
+
+        .feature p {
+            color: #666;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .screenshot-section {
+            text-align: center;
+            margin: 60px 0;
+            padding: 40px 20px;
+            background: linear-gradient(180deg, #f5f5f5 0%, #ffffff 100%);
+            border-radius: 12px;
+        }
+
+        .screenshot-placeholder {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1.1rem;
+            }
+
+            .main-content {
+                padding: 40px 25px;
+            }
+
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .download-btn {
+                width: 100%;
+                max-width: 320px;
+                justify-content: center;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .screenshot-placeholder {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="app-icon">⏳</div>
+            <h1>Focusy</h1>
+            <p class="tagline">Un minuteur minimaliste pour rester concentré</p>
+        </header>
+
+        <div class="main-content">
+            <p class="description">
+                Une application Pomodoro épurée en noir et blanc. 
+                Lancez votre chronomètre, personnalisez votre sonnerie, 
+                et restez concentré sur ce qui compte vraiment.
+            </p>
+
+            <div class="download-section">
+                <h2 class="download-title">Téléchargement gratuit</h2>
+                <div class="download-buttons">
+                    <a href="#" class="download-btn mac">
+                        <span>⌘</span>
+                        <span>Mac</span>
+                    </a>
+                    <a href="https://github.com/latifcodess/Focusy/releases/latest/download/Focusy_1.0.0_x64_en-US.msi" class="download-btn windows">
+                        <span>⊞</span>
+                        <span>Windows</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="screenshot-section">
+                <div class="screenshot-placeholder">⏳</div>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">▶️</div>
+                    <h3>Chronomètre simple</h3>
+                    <p>Lancez et arrêtez votre session de travail en un clic</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Sonnerie personnalisable</h3>
+                    <p>Choisissez la sonnerie qui vous convient le mieux</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚫</div>
+                    <h3>Design minimaliste</h3>
+                    <p>Interface noir et blanc pour une concentration maximale</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Pomodoro. Tous droits réservés.</p>
+        </footer>
+    </div>
+</body>
+</html>
